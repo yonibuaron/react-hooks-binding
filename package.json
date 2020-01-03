@@ -1,0 +1,28 @@
+{
+  "name": "react-hooks-binding",
+  "version": "0.1.1",
+  "description": "React hooks binding",
+  "main": "index.js",
+  "dependencies": {
+    "typescript": "^3.7.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yonibuaron/react-hooks-binding.git"
+  },
+  "keywords": [
+    "react",
+    "hooks",
+    "binding"
+  ],
+  "author": "Yoni Buaron",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yonibuaron/react-hooks-binding/issues"
+  },
+  "homepage": "https://github.com/yonibuaron/react-hooks-binding#readme"
+}
