@@ -12,9 +12,7 @@ function useBidinig(options) {
     var dataContext = useDataContext_1.useDataContext();
     var source = options.source || dataContext;
     var _a = react_1.useState(resolveValue()), bindingValue = _a[0], setBindingValue = _a[1];
-    if (!validateBindingOptions) {
-        return;
-    }
+    validateBindingOptions(source, options);
     if (!source) {
         throw new Error('The source must be defined in options or by DataContext');
     }
@@ -24,8 +22,8 @@ function useBidinig(options) {
     }, [source]);
     function resolveValue() {
         var value = source.value ? source.value : source;
-        if (options.propertyPath) {
-            var paths = options.propertyPath.split('.');
+        if (options.path) {
+            var paths = options.path.split('.');
             for (var _i = 0, paths_1 = paths; _i < paths_1.length; _i++) {
                 var path = paths_1[_i];
                 value = value[path];
@@ -48,8 +46,8 @@ function useBidinig(options) {
             value = options.convertBack(source.value, value);
         }
         var sourceValue = source.value;
-        if (options.propertyPath) {
-            sourceValue[options.propertyPath] = value;
+        if (options.path) {
+            sourceValue[options.path] = value;
         }
         else {
             sourceValue = value;
@@ -69,10 +67,9 @@ function validateBindingOptions(source, options) {
         if (!source.update) {
             throw new Error("Mode twoWay only support source types of useBinding or useMultiBinding or useDataContext");
         }
-        if (!options.propertyPath && !options.convertBack) {
+        if (!options.path && !options.convertBack) {
             throw new Error("Mode twoWay is expected at least options of propertyPath or convertBack");
         }
     }
-    return true;
 }
 //# sourceMappingURL=useBinding.js.map

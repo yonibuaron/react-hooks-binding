@@ -10,7 +10,7 @@ interface DataContextProps {
   initContext: any;
 }
 
-export const DataContextProvider = (props: DataContextProps) => {
+export function DataContextProvider(props: DataContextProps) {
   const updateDataContext = (dataContext: any) => {
     setState(prev => {
       return { ...prev, dataContext };
@@ -25,4 +25,4 @@ export const DataContextProvider = (props: DataContextProps) => {
   const [state, setState] = useState(initState);
 
   return <DataContext.Provider value={state}>{props.children}</DataContext.Provider>;
-};
+}

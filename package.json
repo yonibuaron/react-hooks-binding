@@ -1,12 +1,9 @@
 {
   "name": "react-hooks-binding",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "React hooks binding",
   "main": "index.js",
-  "dependencies": {
-    "@types/react": "^16.9.0",
-    "react": "^16.12.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "typescript": "^3.7.4"
   },

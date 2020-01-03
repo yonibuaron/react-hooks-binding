@@ -7,21 +7,26 @@ export enum BindingMode {
 }
 
 export interface BindingOptions {
-  source: any;
-  propertyPath?: string;
+  source?: any;
+  path?: string;
   converter?(value: any): any;
   convertBack?(dataContext: any, value: any): any;
   mode?: BindingMode;
   defaultValue?: any;
 }
 
-export function useBidinig(options: BindingOptions = {} as BindingOptions) {
+export interface UpdatableValue {
+  __type: string;
+  value: any;
+  update: (value: any) => void;
+}
+
+export function useBidinig(options: BindingOptions = {} as BindingOptions): UpdatableValue {
   let dataContext = useDataContext();
   let source = options.source || dataContext;
   const [bindingValue, setBindingValue] = useState(resolveValue());
-  if (!validateBindingOptions) {
-    return;
-  }
+
+  validateBindingOptions(source, options);
 
   if (!source) {
     throw new Error('The source must be defined in options or by DataContext');
@@ -34,8 +39,8 @@ export function useBidinig(options: BindingOptions = {} as BindingOptions) {
 
   function resolveValue() {
     let value = source.value ? source.value : source;
-    if (options.propertyPath) {
-      let paths = options.propertyPath.split('.');
+    if (options.path) {
+      let paths = options.path.split('.');
       for (let path of paths) {
         value = value[path];
       }
@@ -60,8 +65,8 @@ export function useBidinig(options: BindingOptions = {} as BindingOptions) {
       value = options.convertBack(source.value, value);
     }
     let sourceValue = source.value;
-    if (options.propertyPath) {
-      sourceValue[options.propertyPath] = value;
+    if (options.path) {
+      sourceValue[options.path] = value;
     } else {
       sourceValue = value;
     }
@@ -82,9 +87,8 @@ function validateBindingOptions(source: any, options: BindingOptions) {
     if (!source.update) {
       throw new Error(`Mode twoWay only support source types of useBinding or useMultiBinding or useDataContext`);
     }
-    if (!options.propertyPath && !options.convertBack) {
+    if (!options.path && !options.convertBack) {
       throw new Error(`Mode twoWay is expected at least options of propertyPath or convertBack`);
     }
   }
-  return true;
 }

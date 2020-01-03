@@ -23,7 +23,7 @@ exports.DataContext = react_1.default.createContext({
     value: {},
     update: function (dataContext) { }
 });
-exports.DataContextProvider = function (props) {
+function DataContextProvider(props) {
     var updateDataContext = function (dataContext) {
         setState(function (prev) {
             return __assign(__assign({}, prev), { dataContext: dataContext });
@@ -36,5 +36,6 @@ exports.DataContextProvider = function (props) {
     };
     var _a = react_1.useState(initState), state = _a[0], setState = _a[1];
     return react_1.default.createElement(exports.DataContext.Provider, { value: state }, props.children);
-};
+}
+exports.DataContextProvider = DataContextProvider;
 //# sourceMappingURL=DataContext.js.map
