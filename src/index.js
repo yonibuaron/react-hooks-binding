@@ -6,4 +6,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./binding/useBinding"));
 __export(require("./binding/useDataContext"));
 __export(require("./binding/useMultiBindng"));
+__export(require("./binding/DataContext"));
 //# sourceMappingURL=index.js.map
