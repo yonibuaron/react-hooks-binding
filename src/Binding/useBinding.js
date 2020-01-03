@@ -5,7 +5,7 @@ var useDataContext_1 = require("./useDataContext");
 var common_1 = require("../common");
 function useBidinig(options) {
     if (options === void 0) { options = {}; }
-    var dataContext = useDataContext_1.useDataContext();
+    var dataContext = useDataContext_1.useDataContext(options.sourceKey);
     var source = options.source || dataContext;
     var mode = options.mode || common_1.BindingMode.oneWay;
     var _a = react_1.useState(resolveValue()), bindingValue = _a[0], setBindingValue = _a[1];

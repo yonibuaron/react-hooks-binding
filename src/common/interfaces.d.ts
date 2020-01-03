@@ -1,6 +1,7 @@
 import { BindingMode } from '.';
 export interface BindingOptions {
     source?: UpdatableSource;
+    sourceKey?: string;
     path?: string;
     converter?(value: any): any;
     convertBack?(dataContext: any, value: any): any;
@@ -17,4 +18,5 @@ export interface UpdatableSource {
 export interface DataContextProps {
     children: any;
     initContext: any;
+    key?: string;
 }

@@ -17,24 +17,36 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
-exports.DataContext = react_1.default.createContext({
+var ContextStrore_1 = __importDefault(require("./ContextStrore"));
+exports.DataContextStore = new ContextStrore_1.default();
+var initDataContext = {
     value: {},
     update: function (dataContext) { }
-});
+};
+exports.DataContext = react_1.default.createContext(initDataContext);
 function DataContextProvider(props) {
     var updateDataContext = function (dataContext) {
-        setState(function (prev) {
+        setContext(function (prev) {
             return __assign(__assign({}, prev), { dataContext: dataContext });
         });
     };
-    var initState = {
+    var initContext = {
         value: props.initContext,
         update: updateDataContext
     };
-    var _a = react_1.useState(initState), state = _a[0], setState = _a[1];
-    return react_1.default.createElement(exports.DataContext.Provider, { value: state }, props.children);
+    var _a = react_1.useState(initContext), context = _a[0], setContext = _a[1];
+    if (props.key) {
+        var contex = exports.DataContextStore.createContext(props.key, initDataContext);
+        return react_1.default.createElement(contex.Provider, { value: context },
+            props.children,
+            ">");
+    }
+    return react_1.default.createElement(exports.DataContext.Provider, { value: context }, props.children);
 }
 exports.DataContextProvider = DataContextProvider;
 //# sourceMappingURL=DataContext.js.map
