@@ -64,13 +64,22 @@ export function useBidinig(options: BindingOptions = {} as BindingOptions): Upda
     if (options.convertBack) {
       value = options.convertBack(source.value, value);
     }
-    let sourceValue = source.value;
-    if (options.path) {
-      sourceValue[options.path] = value;
-    } else {
-      sourceValue = value;
-    }
+    let sourceValue = updateSourcePropertyPath(value);
     source.update(sourceValue);
+  }
+
+  function updateSourcePropertyPath(bindingValue: any) {
+    let target = source.value ? source.value : source;
+    if (options.path) {
+      let paths = options.path.split('.');
+      for (let x = 0; x < paths.length; x++)
+        if (x == paths.length - 1) {
+          target[paths[x]] = bindingValue;
+        } else {
+          target = target[paths[x]];
+        }
+    }
+    return target;
   }
 
   let binding = {

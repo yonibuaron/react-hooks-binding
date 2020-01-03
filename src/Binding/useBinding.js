@@ -45,14 +45,22 @@ function useBidinig(options) {
         if (options.convertBack) {
             value = options.convertBack(source.value, value);
         }
-        var sourceValue = source.value;
-        if (options.path) {
-            sourceValue[options.path] = value;
-        }
-        else {
-            sourceValue = value;
-        }
+        var sourceValue = updateSourcePropertyPath(value);
         source.update(sourceValue);
+    }
+    function updateSourcePropertyPath(bindingValue) {
+        var target = source.value ? source.value : source;
+        if (options.path) {
+            var paths = options.path.split('.');
+            for (var x = 0; x < paths.length; x++)
+                if (x == paths.length - 1) {
+                    target[paths[x]] = bindingValue;
+                }
+                else {
+                    target = target[paths[x]];
+                }
+        }
+        return target;
     }
     var binding = {
         __type: 'binding',
