@@ -1,4 +1,2 @@
-export declare function useDataContext(): {
-    value: any;
-    update: (dataContext: any) => void;
-};
+import { UpdatableSource } from '../common/interfaces';
+export declare function useDataContext(): UpdatableSource;

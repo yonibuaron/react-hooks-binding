@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
+import { UpdatableSource, DataContextProps } from '../common/interfaces';
 
 export const DataContext = React.createContext({
   value: {} as any,
   update: (dataContext: any) => {}
-});
-
-interface DataContextProps {
-  children: any;
-  initContext: any;
-}
+} as UpdatableSource);
 
 export function DataContextProvider(props: DataContextProps) {
   const updateDataContext = (dataContext: any) => {
@@ -17,8 +13,7 @@ export function DataContextProvider(props: DataContextProps) {
     });
   };
 
-  const initState = {
-    __type: 'dataContext',
+  const initState: UpdatableSource = {
     value: props.initContext,
     update: updateDataContext
   };

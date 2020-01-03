@@ -1,11 +1,4 @@
 import React from 'react';
-export declare const DataContext: React.Context<{
-    value: any;
-    update: (dataContext: any) => void;
-}>;
-interface DataContextProps {
-    children: any;
-    initContext: any;
-}
+import { UpdatableSource, DataContextProps } from '../common/interfaces';
+export declare const DataContext: React.Context<UpdatableSource>;
 export declare function DataContextProvider(props: DataContextProps): JSX.Element;
-export {};

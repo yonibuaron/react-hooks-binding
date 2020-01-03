@@ -1,36 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useDataContext } from './useDataContext';
+import { BindingMode, BindingOptions, UpdatableSource } from '../common';
 
-export enum BindingMode {
-  oneWay,
-  twoWay
-}
-
-export interface BindingOptions {
-  source?: any;
-  path?: string;
-  converter?(value: any): any;
-  convertBack?(dataContext: any, value: any): any;
-  mode?: BindingMode;
-  defaultValue?: any;
-}
-
-export interface UpdatableValue {
-  __type: string;
-  value: any;
-  update: (value: any) => void;
-}
-
-export function useBidinig(options: BindingOptions = {} as BindingOptions): UpdatableValue {
+export function useBidinig(options: BindingOptions = {} as BindingOptions): UpdatableSource {
   let dataContext = useDataContext();
   let source = options.source || dataContext;
+  let mode = options.mode || BindingMode.oneWay;
   const [bindingValue, setBindingValue] = useState(resolveValue());
 
-  validateBindingOptions(source, options);
-
-  if (!source) {
-    throw new Error('The source must be defined in options or by DataContext');
-  }
+  validateConfiguration();
 
   useEffect(() => {
     let newValue = resolveValue();
@@ -38,7 +16,7 @@ export function useBidinig(options: BindingOptions = {} as BindingOptions): Upda
   }, [source]);
 
   function resolveValue() {
-    let value = source.value ? source.value : source;
+    let value = source.value;
     if (options.path) {
       let paths = options.path.split('.');
       for (let path of paths) {
@@ -48,13 +26,12 @@ export function useBidinig(options: BindingOptions = {} as BindingOptions): Upda
     if (options.converter) {
       value = options.converter(value);
     }
-
     return value;
   }
 
   function updateBindingValue(bindingValue: any) {
     setBindingValue(bindingValue);
-    if (options.mode == BindingMode.twoWay) {
+    if (mode == BindingMode.twoWay) {
       updateSource(bindingValue);
     }
   }
@@ -69,7 +46,7 @@ export function useBidinig(options: BindingOptions = {} as BindingOptions): Upda
   }
 
   function updateSourcePropertyPath(bindingValue: any) {
-    let target = source.value ? source.value : source;
+    let target = source.value;
     if (options.path) {
       let paths = options.path.split('.');
       for (let x = 0; x < paths.length; x++)
@@ -82,22 +59,25 @@ export function useBidinig(options: BindingOptions = {} as BindingOptions): Upda
     return target;
   }
 
-  let binding = {
-    __type: 'binding',
+  function validateConfiguration() {
+    if (!source) {
+      throw new Error('The source must be defined in options or by DataContext');
+    }
+
+    if (mode == BindingMode.twoWay) {
+      if (!source.update) {
+        throw new Error(`Mode twoWay only support source types of useBinding or useMultiBinding or useDataContext`);
+      }
+      if (!options.path && !options.convertBack) {
+        throw new Error(`Mode twoWay is expected at least options of propertyPath or convertBack`);
+      }
+    }
+  }
+
+  let binding: UpdatableSource = {
     value: bindingValue,
     update: updateBindingValue
   };
 
   return binding;
-}
-
-function validateBindingOptions(source: any, options: BindingOptions) {
-  if (options.mode && options.mode == BindingMode.twoWay) {
-    if (!source.update) {
-      throw new Error(`Mode twoWay only support source types of useBinding or useMultiBinding or useDataContext`);
-    }
-    if (!options.path && !options.convertBack) {
-      throw new Error(`Mode twoWay is expected at least options of propertyPath or convertBack`);
-    }
-  }
 }

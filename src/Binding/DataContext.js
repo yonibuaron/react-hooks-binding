@@ -30,7 +30,6 @@ function DataContextProvider(props) {
         });
     };
     var initState = {
-        __type: 'dataContext',
         value: props.initContext,
         update: updateDataContext
     };
