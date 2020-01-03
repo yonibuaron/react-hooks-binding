@@ -4,9 +4,12 @@
   "description": "React hooks binding",
   "main": "index.js",
   "dependencies": {
+    "@types/react": "^16.9.0",
+    "react": "^16.12.0"
+  },
+  "devDependencies": {
     "typescript": "^3.7.4"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "test"
   },
