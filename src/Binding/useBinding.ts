@@ -3,7 +3,7 @@ import { useDataContext } from './useDataContext';
 import { BindingMode, BindingOptions, UpdatableSource } from '../common';
 
 export function useBidinig(options: BindingOptions = {} as BindingOptions): UpdatableSource {
-  let dataContext = useDataContext();
+  let dataContext = useDataContext(options.sourceKey);
   let source = options.source || dataContext;
   let mode = options.mode || BindingMode.oneWay;
   const [bindingValue, setBindingValue] = useState(resolveValue());
