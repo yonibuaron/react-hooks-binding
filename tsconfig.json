@@ -3,6 +3,8 @@
     "target": "es5",
     "lib": ["DOM", "ES2015", "ES2016", "ES5", "ES6"],
     //"allowJs": true,
+    "outDir": "build",
+    //"rootDir": "src",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "strict": true,
