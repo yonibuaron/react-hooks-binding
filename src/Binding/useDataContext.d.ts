@@ -1,2 +1,2 @@
 import { UpdatableSource } from '../common/interfaces';
-export declare function useDataContext(key?: string): UpdatableSource;
+export declare function useDataContext(dataContextKey?: string): UpdatableSource;

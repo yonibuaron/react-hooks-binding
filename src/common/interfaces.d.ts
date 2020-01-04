@@ -18,5 +18,5 @@ export interface UpdatableSource {
 export interface DataContextProps {
     children: any;
     initContext: any;
-    key?: string;
+    dataContextKey?: string;
 }

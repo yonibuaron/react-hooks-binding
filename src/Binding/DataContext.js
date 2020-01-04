@@ -40,8 +40,9 @@ function DataContextProvider(props) {
         update: updateDataContext
     };
     var _a = react_1.useState(initContext), context = _a[0], setContext = _a[1];
-    if (props.key) {
-        var contex = exports.DataContextStore.createContext(props.key, initDataContext);
+    if (props.dataContextKey) {
+        console.log('The key:' + props.dataContextKey);
+        var contex = exports.DataContextStore.createContext(props.dataContextKey, initDataContext);
         return react_1.default.createElement(contex.Provider, { value: context },
             props.children,
             ">");

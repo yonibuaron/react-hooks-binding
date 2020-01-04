@@ -2,20 +2,22 @@ import React, { Context } from 'react';
 import { UpdatableSource } from '../common/interfaces';
 
 export default class ContextStore {
-  store: { [key: string]: Context<UpdatableSource> } = {};
+  store: { [dataContextKey: string]: Context<UpdatableSource> } = {};
 
-  createContext(contextKey: string, context: UpdatableSource) {
-    if (this.store[contextKey]) {
-      throw new Error('Data context already in used');
+  createContext(dataContextKey: string, context: UpdatableSource) {
+    if (this.store[dataContextKey]) {
+      return this.getContext(dataContextKey);
     }
-    this.store[contextKey] = React.createContext(context);
-    return this.store[contextKey];
+    this.store[dataContextKey] = React.createContext(context);
+    console.log('Added context to Store');
+    return this.store[dataContextKey];
   }
 
-  getContext(contextKey: string) {
-    if (!this.store[contextKey]) {
+  getContext(dataContextKey: string) {
+    if (!this.store[dataContextKey]) {
+      console.log('Store: ' + JSON.stringify(this.store));
       throw new Error('Data context key not found');
     }
-    return this.store[contextKey];
+    return this.store[dataContextKey];
   }
 }

@@ -8,18 +8,20 @@ var ContextStore = /** @class */ (function () {
     function ContextStore() {
         this.store = {};
     }
-    ContextStore.prototype.createContext = function (contextKey, context) {
-        if (this.store[contextKey]) {
-            throw new Error('Data context already in used');
+    ContextStore.prototype.createContext = function (dataContextKey, context) {
+        if (this.store[dataContextKey]) {
+            return this.getContext(dataContextKey);
         }
-        this.store[contextKey] = react_1.default.createContext(context);
-        return this.store[contextKey];
+        this.store[dataContextKey] = react_1.default.createContext(context);
+        console.log('Added context to Store');
+        return this.store[dataContextKey];
     };
-    ContextStore.prototype.getContext = function (contextKey) {
-        if (!this.store[contextKey]) {
+    ContextStore.prototype.getContext = function (dataContextKey) {
+        if (!this.store[dataContextKey]) {
+            console.log('Store: ' + JSON.stringify(this.store));
             throw new Error('Data context key not found');
         }
-        return this.store[contextKey];
+        return this.store[dataContextKey];
     };
     return ContextStore;
 }());
