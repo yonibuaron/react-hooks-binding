@@ -4,7 +4,7 @@ import { BindingMode, BindingOptions, UpdatableValue, SoureToTargetOptions } fro
 import { TargetToSoureOptions } from '../common/interfaces';
 import { BindingValue } from './BindingValue';
 
-export function useBidinig(options: BindingOptions = {} as BindingOptions): UpdatableValue {
+export function useBinding(options: BindingOptions = {} as BindingOptions): UpdatableValue {
   let dataContext = useDataContext(options.contextKey);
   let source = options.source || dataContext;
   let mode = options.mode || BindingMode.oneWay;

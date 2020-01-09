@@ -1,4 +1,4 @@
 export * from './useBinding';
 export * from './useDataContext';
-export * from './useMultiBindng';
+export * from './useMultiBinding';
 export * from './DataContext';
