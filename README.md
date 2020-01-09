@@ -1,2 +1,10 @@
 # react-hooks-binding
-React hooks binding is the simple way to create react app.
+React hooks binding the simple way to manage states and context. 
+
+
+BETA VERSION
+
+
+
+
+
