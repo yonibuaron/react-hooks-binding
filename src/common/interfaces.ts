@@ -2,16 +2,28 @@ import { BindingMode } from '.';
 
 export interface BindingOptions {
   source?: UpdatableSource;
-  sourceKey?: string;
+  contextKey?: string;
   path?: string;
-  converter?(value: any): any;
+  convert?(value: any): any;
   convertBack?(dataContext: any, value: any): any;
   mode?: BindingMode;
 }
 
+export interface SoureToTargetOptions {
+  source: any;
+  path?: string;
+  convert?(value: any): any;
+}
+
+export interface TargetToSoureOptions {
+  source: UpdatableSource;
+  path?: string;
+  convertBack?(dataContext: any, value: any): any;
+}
+
 export interface MultiBindingOptions {
   sources: UpdatableSource[];
-  converter(values: any[]): any;
+  convert(values: any[]): any;
 }
 export interface UpdatableSource {
   value: any;
@@ -21,5 +33,5 @@ export interface UpdatableSource {
 export interface DataContextProps {
   children: any;
   initContext: any;
-  dataContextKey?: string;
+  contextKey?: string;
 }

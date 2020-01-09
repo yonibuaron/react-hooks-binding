@@ -9,13 +9,11 @@ export default class ContextStore {
       return this.getContext(dataContextKey);
     }
     this.store[dataContextKey] = React.createContext(context);
-    console.log('Added context to Store');
     return this.store[dataContextKey];
   }
 
   getContext(dataContextKey: string) {
     if (!this.store[dataContextKey]) {
-      console.log('Store: ' + JSON.stringify(this.store));
       throw new Error('Data context key not found');
     }
     return this.store[dataContextKey];

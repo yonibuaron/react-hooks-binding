@@ -13,7 +13,7 @@ export function useMultiBidinig(options: MultiBindingOptions = {} as MultiBindin
   }, [...sources]);
 
   function resolveValue() {
-    let value = options.converter(sources.map(s => s.value));
+    let value = options.convert(sources.map(s => s.value));
     return value;
   }
 
