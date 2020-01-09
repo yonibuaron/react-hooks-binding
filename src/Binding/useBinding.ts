@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useDataContext } from './useDataContext';
-import { BindingMode, BindingOptions, UpdatableSource, SoureToTargetOptions } from '../common';
+import { BindingMode, BindingOptions, UpdatableValue, SoureToTargetOptions } from '../common';
 import { TargetToSoureOptions } from '../common/interfaces';
+import { BindingValue } from './BindingValue';
 
-export function useBidinig(options: BindingOptions = {} as BindingOptions): UpdatableSource {
+export function useBidinig(options: BindingOptions = {} as BindingOptions): UpdatableValue {
   let dataContext = useDataContext(options.contextKey);
   let source = options.source || dataContext;
   let mode = options.mode || BindingMode.oneWay;
   validateBindingConfiguration(source, options);
 
-  let binding: UpdatableSource = {
+  let binding: UpdatableValue = {
     value: undefined,
-    update: () => {}
+    setValue: () => {}
   };
 
   if (mode != BindingMode.oneWayToSource) {
@@ -23,14 +24,14 @@ export function useBidinig(options: BindingOptions = {} as BindingOptions): Upda
   }
 
   if (mode != BindingMode.oneWay) {
-    binding.update = useBindingTragetToSource({
+    binding.setValue = useBindingTragetToSource({
       source: source,
       convertBack: options.convertBack,
       path: options.path
     });
   }
 
-  return binding;
+  return new BindingValue(binding.value, binding.setValue);
 }
 
 function useBindingSourceToTarget(options: SoureToTargetOptions) {
@@ -77,7 +78,7 @@ function useBindingTragetToSource(options: TargetToSoureOptions) {
       value = options.convertBack(source.value, value);
     }
     let sourceValue = updateSourcePropertyPath(value);
-    source.update(sourceValue);
+    source.setValue(sourceValue);
   }
 
   function updateSourcePropertyPath(bindingValue: any) {
@@ -102,7 +103,7 @@ function validateBindingConfiguration(source: any, options: BindingOptions) {
   }
 
   if (options.mode == BindingMode.twoWay) {
-    if (!source.update) {
+    if (!source.setValue) {
       throw new Error(`When use mode twoWay the source must be type of useBinding or useDataContext`);
     }
   }

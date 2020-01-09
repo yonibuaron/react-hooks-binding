@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { MultiBindingOptions, UpdatableSource } from '../common';
+import { MultiBindingOptions, UpdatableValue } from '../common';
 
-export function useMultiBidinig(options: MultiBindingOptions = {} as MultiBindingOptions): UpdatableSource {
+export function useMultiBidinig(options: MultiBindingOptions = {} as MultiBindingOptions): UpdatableValue {
   let sources = options.sources;
   validateConfiguration();
 
@@ -23,9 +23,9 @@ export function useMultiBidinig(options: MultiBindingOptions = {} as MultiBindin
     }
   }
 
-  let multiBinding: UpdatableSource = {
+  let multiBinding: UpdatableValue = {
     value: multiBindingValue,
-    update: () => {}
+    setValue: () => {}
   };
 
   return multiBinding;

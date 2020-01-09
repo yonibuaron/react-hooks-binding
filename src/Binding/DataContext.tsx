@@ -1,26 +1,30 @@
 import React, { useState } from 'react';
-import { UpdatableSource, DataContextProps } from '../common/interfaces';
+import { UpdatableValue, DataContextProps } from '../common/interfaces';
 import ContextStore from './ContextStrore';
 
 export const DataContextStore = new ContextStore();
 
 const initDataContext = {
   value: {} as any,
-  update: (dataContext: any) => {}
-} as UpdatableSource;
+  setValue: (dataContext: any) => {}
+} as UpdatableValue;
 
 export const DataContext = React.createContext(initDataContext);
 
 export function DataContextProvider(props: DataContextProps) {
-  const updateDataContext = (dataContext: any) => {
+  const updateContext = (context: any) => {
     setContext(prev => {
-      return { ...prev, dataContext };
+      return { ...prev, context };
     });
+    //source is updatable value, propagation the value.
+    if (props.context.setValue) {
+      props.context.setValue(context);
+    }
   };
 
-  const initContext: UpdatableSource = {
-    value: props.initContext,
-    update: updateDataContext
+  const initContext: UpdatableValue = {
+    value: props.context,
+    setValue: updateContext
   };
   const [context, setContext] = useState(initContext);
 

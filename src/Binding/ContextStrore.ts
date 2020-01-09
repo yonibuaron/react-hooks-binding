@@ -1,10 +1,10 @@
 import React, { Context } from 'react';
-import { UpdatableSource } from '../common/interfaces';
+import { UpdatableValue } from '../common/interfaces';
 
 export default class ContextStore {
-  store: { [dataContextKey: string]: Context<UpdatableSource> } = {};
+  store: { [dataContextKey: string]: Context<UpdatableValue> } = {};
 
-  createContext(dataContextKey: string, context: UpdatableSource) {
+  createContext(dataContextKey: string, context: UpdatableValue) {
     if (this.store[dataContextKey]) {
       return this.getContext(dataContextKey);
     }

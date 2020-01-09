@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { DataContext, DataContextStore } from './DataContext';
-import { UpdatableSource } from '../common/interfaces';
+import { UpdatableValue } from '../common/interfaces';
 
-export function useDataContext(dataContextKey?: string): UpdatableSource {
+export function useDataContext(dataContextKey?: string): UpdatableValue {
   let context;
   if (dataContextKey) {
     context = DataContextStore.getContext(dataContextKey);
