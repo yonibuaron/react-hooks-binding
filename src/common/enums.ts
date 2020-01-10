@@ -1,5 +1,5 @@
 export enum BindingMode {
-  oneWay,
-  twoWay,
-  oneWayToSource
+  oneWay = 'oneWay',
+  twoWay = 'twoWay',
+  oneWayToSource = 'oneWayToSource'
 }

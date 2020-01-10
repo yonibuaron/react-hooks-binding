@@ -12,7 +12,9 @@ export function useBinding(options: BindingOptions = {} as BindingOptions): Upda
 
   let binding: UpdatableValue = {
     value: undefined,
-    setValue: () => {}
+    setValue: () => {
+      throw new Error("Can't use setValue on mode oneWay");
+    }
   };
 
   if (mode != BindingMode.oneWayToSource) {
@@ -62,15 +64,6 @@ function useBindingSourceToTarget(options: SoureToTargetOptions) {
 
 function useBindingTragetToSource(options: TargetToSoureOptions) {
   let source = options.source;
-  const [bindingValue, setBindingValue] = useState();
-
-  useEffect(() => {
-    updateSource(bindingValue);
-  }, [bindingValue]);
-
-  function updateBindingValue(bindingValue: any) {
-    setBindingValue(bindingValue);
-  }
 
   function updateSource(bindingValue: any) {
     let value = bindingValue;
@@ -94,7 +87,7 @@ function useBindingTragetToSource(options: TargetToSoureOptions) {
     }
     return target;
   }
-  return updateBindingValue;
+  return updateSource;
 }
 
 function validateBindingConfiguration(source: any, options: BindingOptions) {
