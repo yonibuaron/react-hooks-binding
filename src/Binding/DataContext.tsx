@@ -14,7 +14,14 @@ export const DataContext = React.createContext(initDataContext);
 export function DataContextProvider(props: DataContextProps) {
   const updateContext = (context: any) => {
     setContext(prev => {
-      return { ...prev, context };
+      //TODO deap equal check to prevert rerender
+      // if (prev.value == context) {
+      //   return prev;
+      // }
+      return {
+        value: props.context,
+        setValue: updateContext
+      };
     });
     //source is updatable value, propagation the value.
     if (props.context.setValue) {
@@ -22,11 +29,10 @@ export function DataContextProvider(props: DataContextProps) {
     }
   };
 
-  const initContext: UpdatableValue = {
+  const [context, setContext] = useState({
     value: props.context,
     setValue: updateContext
-  };
-  const [context, setContext] = useState(initContext);
+  });
 
   if (props.contextKey) {
     let contex = DataContextStore.createContext(props.contextKey, initDataContext);

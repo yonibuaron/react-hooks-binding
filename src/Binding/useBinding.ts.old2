@@ -1,24 +1,51 @@
 import { useEffect, useState } from 'react';
 import { useDataContext } from './useDataContext';
-import { BindingMode, BindingOptions, UpdatableValue } from '../common';
+import { BindingMode, BindingOptions, UpdatableValue, SoureToTargetOptions } from '../common';
+import { TargetToSoureOptions } from '../common/interfaces';
+import { BindingValue } from './BindingValue';
 
 export function useBinding(options: BindingOptions = {} as BindingOptions): UpdatableValue {
   let dataContext = useDataContext(options.contextKey);
   let source = options.source || dataContext;
   let mode = options.mode || BindingMode.oneWay;
-  const [bindingValue, setBindingValue] = useState(resolveValue());
-
   validateBindingConfiguration(source, options);
 
+  let binding: UpdatableValue = {
+    value: undefined,
+    setValue: () => {
+      throw new Error("Can't use setValue on mode oneWay");
+    }
+  };
+
   if (mode != BindingMode.oneWayToSource) {
-    useEffect(() => {
-      let newValue = resolveValue();
-      setBindingValue(newValue);
-    }, [source]);
+    binding.value = useBindingSourceToTarget({
+      source: source,
+      convert: options.convert,
+      path: options.path
+    });
   }
 
+  if (mode != BindingMode.oneWay) {
+    binding.setValue = useBindingTragetToSource({
+      source: source,
+      convertBack: options.convertBack,
+      path: options.path
+    });
+  }
+
+  return new BindingValue(binding.value, binding.setValue);
+}
+
+function useBindingSourceToTarget(options: SoureToTargetOptions) {
+  let source = options.source;
+  const [bindingValue, setBindingValue] = useState(resolveValue());
+
+  useEffect(() => {
+    setBindingValue(resolveValue());
+  }, [source]);
+
   function resolveValue() {
-    let value = source.value;
+    let value = source.value || source;
     if (options.path) {
       let paths = options.path.split('.');
       for (let path of paths) {
@@ -31,11 +58,19 @@ export function useBinding(options: BindingOptions = {} as BindingOptions): Upda
     return value;
   }
 
+  return bindingValue;
+}
+
+function useBindingTragetToSource(options: TargetToSoureOptions) {
+  let source = options.source;
+  const [bindingValue, setBindingValue] = useState();
+
+  useEffect(() => {
+    updateSource(bindingValue);
+  }, [bindingValue]);
+
   function updateBindingValue(bindingValue: any) {
     setBindingValue(bindingValue);
-    if (mode != BindingMode.oneWay) {
-      updateSource(bindingValue);
-    }
   }
 
   function updateSource(bindingValue: any) {
@@ -43,12 +78,12 @@ export function useBinding(options: BindingOptions = {} as BindingOptions): Upda
     if (options.convertBack) {
       value = options.convertBack(source.value, value);
     }
-    updateSourcePropertyPath(value, source.value);
-    source.setValue(source.value);
+    let sourceValue = updateSourcePropertyPath(value);
+    source.setValue(sourceValue);
   }
 
-  function updateSourcePropertyPath(bindingValue: any, source: any) {
-    let target = source;
+  function updateSourcePropertyPath(bindingValue: any) {
+    let target = source.value;
     if (options.path) {
       let paths = options.path.split('.');
       for (let x = 0; x < paths.length; x++)
@@ -58,14 +93,9 @@ export function useBinding(options: BindingOptions = {} as BindingOptions): Upda
           target = target[paths[x]];
         }
     }
+    return target;
   }
-
-  let binding: UpdatableValue = {
-    value: bindingValue,
-    setValue: updateBindingValue
-  };
-
-  return binding;
+  return updateBindingValue;
 }
 
 function validateBindingConfiguration(source: any, options: BindingOptions) {
