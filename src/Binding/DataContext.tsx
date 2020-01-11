@@ -30,7 +30,7 @@ export function DataContextProvider(props: DataContextProps) {
   };
 
   const [context, setContext] = useState({
-    value: props.context,
+    value: props.context.value ? props.context.value : props.context,
     setValue: updateContext
   });
 
