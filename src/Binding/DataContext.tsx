@@ -36,7 +36,7 @@ export function DataContextProvider(props: DataContextProps) {
 
   if (props.contextKey) {
     let contex = DataContextStore.createContext(props.contextKey, initDataContext);
-    return <contex.Provider value={context}>{props.children}></contex.Provider>;
+    return <contex.Provider value={context}>{props.children}</contex.Provider>;
   }
   return <DataContext.Provider value={context}>{props.children}</DataContext.Provider>;
 }
