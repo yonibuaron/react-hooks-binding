@@ -1,5 +1,6 @@
 # react-hooks-binding
-React hooks binding is manage states and context like redux just more simple. 
+
+React hooks binding is manage states and context like redux just more simple.
 
 Features:
 
@@ -22,6 +23,7 @@ Basic Usage
 Wrap your form with DataContext and then useBinding in every place you need to get or set value from DataContext.
 Example:
 
+```
 import { DataContextProvider } from 'react-hooks-binding';
 
 <DataContextProvider
@@ -71,9 +73,4 @@ export default function CardNumber() {
     />
   );
 }
-
-
-
-
-
-
+```

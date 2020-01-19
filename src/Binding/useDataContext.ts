@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { DataContext, DataContextStore } from './DataContext';
+import { InternalContext, DataContextStore } from './DataContext';
 import { UpdatableValue } from '../common/interfaces';
 
 export function useDataContext(dataContextKey?: string): UpdatableValue {
@@ -7,7 +7,7 @@ export function useDataContext(dataContextKey?: string): UpdatableValue {
   if (dataContextKey) {
     context = DataContextStore.getContext(dataContextKey);
   } else {
-    context = DataContext;
+    context = InternalContext;
   }
   return useContext(context);
 }
