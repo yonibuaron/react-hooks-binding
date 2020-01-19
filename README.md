@@ -18,7 +18,7 @@ Typescript definitions
 
 ## Installation
 
-```
+```NPM
 npm install react-hooks-binding --save
 ```
 
@@ -28,7 +28,7 @@ Wrap your form with DataContext and then useBinding in every place you need to g
 
 ## Example:
 
-```
+```TSX
 import { DataContextProvider } from 'react-hooks-binding';
 
 <DataContextProvider
