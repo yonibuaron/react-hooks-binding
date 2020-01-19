@@ -2,7 +2,7 @@
 
 React hooks binding is manage states and context like redux just more simple.
 
-Features:
+## Features:
 
 Binding to relative DataContext.
 Binding to global DataContext.
@@ -16,12 +16,15 @@ MultiBinding - from multiple sources to one value.
 
 Typescript definitions
 
-Installation
+## Installation
+
 npm install react-hooks-binding --save
 
-Basic Usage
+## Basic Usage
+
 Wrap your form with DataContext and then useBinding in every place you need to get or set value from DataContext.
-Example:
+
+## Example:
 
 ```
 import { DataContextProvider } from 'react-hooks-binding';
