@@ -18,7 +18,9 @@ Typescript definitions
 
 ## Installation
 
+```
 npm install react-hooks-binding --save
+```
 
 ## Basic Usage
 
