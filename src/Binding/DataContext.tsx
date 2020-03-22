@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { UpdatableValue, DataContextProps } from '../common/interfaces';
 import ContextStore from './ContextStrore';
 
@@ -12,7 +12,21 @@ const initDataContext = {
 export const DataContext = React.createContext(initDataContext);
 
 export function DataContextProvider(props: DataContextProps) {
-  const updateContext = (context: any) => {
+  const [context, setContext] = useState({
+    value: props.context.value ? props.context.value : props.context,
+    setValue: updateContext
+  });
+
+  useEffect(() => {
+    setContext(prev => {
+      return {
+        ...prev,
+        value: props.context
+      };
+    });
+  }, [props.context]);
+
+  function updateContext(context: any) {
     setContext(prev => {
       //TODO deap equal check to prevert rerender
       // if (prev.value == context) {
@@ -27,12 +41,7 @@ export function DataContextProvider(props: DataContextProps) {
     if (props.context.setValue) {
       props.context.setValue(context);
     }
-  };
-
-  const [context, setContext] = useState({
-    value: props.context.value ? props.context.value : props.context,
-    setValue: updateContext
-  });
+  }
 
   if (props.contextKey) {
     let contex = DataContextStore.createContext(props.contextKey, initDataContext);
