@@ -48,7 +48,7 @@ export function useBinding(options: BindingOptions = {} as BindingOptions): Upda
   }
 
   function updateSourcePropertyPath(bindingValue: any, source: any) {
-    let target = source;
+    let target = { ...source };
     if (options.path) {
       target[options.path] = bindingValue;
       // let paths = options.path.split('.');
