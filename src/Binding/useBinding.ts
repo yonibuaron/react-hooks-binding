@@ -43,26 +43,27 @@ export function useBinding(options: BindingOptions = {} as BindingOptions): Upda
     if (options.convertBack) {
       value = options.convertBack(source.value, value);
     }
-    updateSourcePropertyPath(value, source.value);
-    source.setValue(source.value);
+    let updatedSourceValue = updateSourcePropertyPath(value, source.value);
+    source.setValue(updatedSourceValue);
   }
 
   function updateSourcePropertyPath(bindingValue: any, source: any) {
     let target = source;
     if (options.path) {
-      let paths = options.path.split('.');
-      for (let x = 0; x < paths.length; x++)
-        if (x == paths.length - 1) {
-          target[paths[x]] = bindingValue;
-        } else {
-          target = target[paths[x]];
-        }
+      target[options.path] = bindingValue;
+      // let paths = options.path.split('.');
+      // for (let x = 0; x < paths.length; x++)
+      //   if (x == paths.length - 1) {
+      //   } else {
+      //     target = target[paths[x]];
+      //   }
     }
+    return target;
   }
 
   let binding: UpdatableValue = {
     value: bindingValue,
-    setValue: updateBindingValue
+    setValue: updateBindingValue,
   };
 
   return binding;
