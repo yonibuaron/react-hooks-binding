@@ -43,12 +43,12 @@ export function useBinding(options: BindingOptions = {} as BindingOptions): Upda
     if (options.convertBack) {
       value = options.convertBack(source.value, value);
     }
-    let updatedSourceValue = updateSourcePropertyPath(value, source.value);
+    let updatedSourceValue = updateSourcePropertyPath(value);
     source.setValue(updatedSourceValue);
   }
 
-  function updateSourcePropertyPath(bindingValue: any, source: any) {
-    let target = { ...source };
+  function updateSourcePropertyPath(bindingValue: any) {
+    let target = { ...source.value };
     if (options.path) {
       target[options.path] = bindingValue;
       // let paths = options.path.split('.');
