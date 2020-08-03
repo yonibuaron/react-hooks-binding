@@ -14,14 +14,11 @@ export const DataContext = React.createContext(initDataContext);
 export function DataContextProvider(props: DataContextProps) {
   const [context, setContext] = useState(props.context);
   const updateContext = (value: any) => {
-    console.log("updateConstex - " + JSON.stringify(value.products?.length));
     setContext(value);
     if (props.onChange) {
       props.onChange(value);
     }
   };
-
-  console.log("datacontex - " + JSON.stringify(context.products?.length));
 
   if (props.contextKey) {
     let contex = DataContextStore.createContext(
