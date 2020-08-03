@@ -28,6 +28,7 @@ export interface MultiBindingOptions {
 export interface UpdatableValue {
   value: any;
   setValue: (value: any) => void;
+  dataContext?: UpdatableValue;
 }
 
 export interface DataContextProps {

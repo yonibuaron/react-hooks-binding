@@ -12,40 +12,31 @@ const initDataContext = {
 export const DataContext = React.createContext(initDataContext);
 
 export function DataContextProvider(props: DataContextProps) {
-  const updateContext = (context: any) => {
-    setContext((prev) => {
-      //TODO deap equal check to prevert rerender
-      // if (prev.value == context) {
-      //   return prev;
-      // }
-      return {
-        value: context,
-        setValue: updateContext,
-      };
-    });
-    //source is updatable value, propagation the value.
-    if (props.context.setValue) {
-      props.context.setValue(context);
-    }
+  const [context, setContext] = useState(props.context);
+  const updateContext = (value: any) => {
+    console.log("updateConstex - " + JSON.stringify(value.products?.length));
+    setContext(value);
     if (props.onChange) {
-      props.onChange(context);
+      props.onChange(value);
     }
   };
 
-  const [context, setContext] = useState({
-    value: props.context.value ? props.context.value : props.context,
-    setValue: updateContext,
-  });
+  console.log("datacontex - " + JSON.stringify(context.products?.length));
 
   if (props.contextKey) {
     let contex = DataContextStore.createContext(
       props.contextKey,
       initDataContext
     );
-    return <contex.Provider value={context}>{props.children}</contex.Provider>;
+
+    return (
+      <contex.Provider value={{ value: context, setValue: updateContext }}>
+        {props.children}
+      </contex.Provider>
+    );
   }
   return (
-    <DataContext.Provider value={context}>
+    <DataContext.Provider value={{ value: context, setValue: updateContext }}>
       {props.children}
     </DataContext.Provider>
   );
