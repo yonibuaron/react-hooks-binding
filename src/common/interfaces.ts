@@ -1,4 +1,4 @@
-import { BindingMode } from '.';
+import { BindingMode } from ".";
 
 export interface BindingOptions {
   source?: UpdatableValue;
@@ -28,10 +28,12 @@ export interface MultiBindingOptions {
 export interface UpdatableValue {
   value: any;
   setValue: (value: any) => void;
+  dataContext?: UpdatableValue;
 }
 
 export interface DataContextProps {
   children: any;
   context: any;
   contextKey?: string;
+  onChange?: (value: any) => {};
 }
