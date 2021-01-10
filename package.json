@@ -1,6 +1,6 @@
 {
   "name": "react-hooks-binding",
-  "version": "0.1.41",
+  "version": "0.1.42",
   "description": "React hooks binding",
   "main": "lib/index.js",
   "dependencies": {},

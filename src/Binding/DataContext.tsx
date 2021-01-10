@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { UpdatableValue, DataContextProps } from "../common/interfaces";
-import ContextStore from "./ContextStrore";
+import React, { useEffect, useState } from 'react';
+import { UpdatableValue, DataContextProps } from '../common/interfaces';
+import ContextStore from './ContextStrore';
 
 export const DataContextStore = new ContextStore();
 
@@ -13,6 +13,11 @@ export const DataContext = React.createContext(initDataContext);
 
 export function DataContextProvider(props: DataContextProps) {
   const [context, setContext] = useState(props.context);
+
+  useEffect(() => {
+    updateContext(props.context);
+  }, [props.context]);
+
   const updateContext = (value: any) => {
     setContext(value);
     if (props.onChange) {
@@ -21,20 +26,11 @@ export function DataContextProvider(props: DataContextProps) {
   };
 
   if (props.contextKey) {
-    let contex = DataContextStore.createContext(
-      props.contextKey,
-      initDataContext
-    );
+    let contex = DataContextStore.createContext(props.contextKey, initDataContext);
 
-    return (
-      <contex.Provider value={{ value: context, setValue: updateContext }}>
-        {props.children}
-      </contex.Provider>
-    );
+    return <contex.Provider value={{ value: context, setValue: updateContext }}>{props.children}</contex.Provider>;
   }
   return (
-    <DataContext.Provider value={{ value: context, setValue: updateContext }}>
-      {props.children}
-    </DataContext.Provider>
+    <DataContext.Provider value={{ value: context, setValue: updateContext }}>{props.children}</DataContext.Provider>
   );
 }
